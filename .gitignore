@@ -1,2 +1,19 @@
 .streamlit/
 __pycache__/
+
+# Security: Exclude API Keys & Secrets
+.streamlit/secrets.toml
+.env
+
+# Vector Database (Local Storage)
+faiss_index/
+
+# Python & Environment Files
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# OS Files
+.DS_Store
+Thumbs.db
