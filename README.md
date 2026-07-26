@@ -20,7 +20,7 @@ An end-to-end Retrieval-Augmented Generation (RAG) system built with Python, Str
 
 1. **Clone the Repository:**
    ```bash
-   git clone [https://github.com/YOUR_USERNAME/DocuChat-AI.git](https://github.com/YOUR_USERNAME/DocuChat-AI.git)
+   git clone [https://github.com/vedgaidhani/doc_chatbot.git](https://github.com/vedgaidhani/doc_chatbot.git)
    cd DocuChat-AI
 
 
