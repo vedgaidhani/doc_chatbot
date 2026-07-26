@@ -23,9 +23,13 @@ st.title("📄 DocuChat AI: Enterprise RAG Engine")
 try:
     API_KEY = st.secrets["GEMINI_API_KEY"]
     client = genai.Client(api_key=API_KEY)
+    if "chat_history" not in st.session_state:
+            st.session_state.chat_history = []
 except Exception:
     st.error("🚨 Secret vault not found. Please check .streamlit/secrets.toml")
     st.stop()
+
+    
 
 
 
@@ -118,10 +122,16 @@ with st.sidebar:
 
 # 4. MAIN CHAT INTERFACE (RAG ENABLED)
 
+
+for message in st.session_state.chat_history:
+    with st.chat_message(message["role"]):
+        st.write(message["content"])
+
 user_input = st.chat_input("Ask a question about the document...")
 
 if user_input:
     # 1. Display user message
+    st.session_state.chat_history.append({"role": "user", "content": user_input})
     with st.chat_message("user"):
         st.write(user_input)
 
@@ -146,7 +156,6 @@ if user_input:
             
             # Load the strict prompt rules...
             chain = get_conversational_chain()  
-
             
             
             # Feed the matched document chunks and the question into Gemini...
@@ -154,10 +163,14 @@ if user_input:
                 {"input_documents": docs, "question": user_input}, 
                 return_only_outputs=True
             )
-            
+
+            ai_replay = response["output_text"]
+
+
             # Display the AI  final answer...
+            st.session_state.chat_history.append({"role": "ai", "content": ai_replay})
             with st.chat_message("ai"):
-                st.write(response["output_text"])
+                st.write(ai_replay)
                 
         except Exception as e:
             st.error(f"🚨 RAG Processing Error: {str(e)}")
